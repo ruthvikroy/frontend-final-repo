@@ -221,7 +221,21 @@ export function LunarExplorationSection({
                       </span>
                     </div>
 
-                    {mission.referenceImage && (
+                    {mission.youtubeId ? (
+                      <div className="relative rounded overflow-hidden aspect-[16/10] bg-black border border-amber-500/50">
+                        <iframe
+                          src={`https://www.youtube-nocookie.com/embed/${mission.youtubeId}?${mission.videoStartTime ? `start=${mission.videoStartTime}&` : ''}rel=0`}
+                          title={mission.videoTitle || `${mission.name} Video`}
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                          className="w-full h-full border-0"
+                        />
+                        <div className="absolute top-2 right-2 px-1.5 py-0.5 bg-black/80 border border-amber-500/40 text-amber-300 text-[9px] font-mono uppercase font-bold flex items-center gap-1 pointer-events-none z-10">
+                          <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
+                          <span>NASA VIDEO</span>
+                        </div>
+                      </div>
+                    ) : mission.referenceImage ? (
                       <div className="relative rounded overflow-hidden aspect-[16/10] bg-black border border-[var(--line)]">
                         <img
                           src={mission.referenceImage}
@@ -234,7 +248,7 @@ export function LunarExplorationSection({
                           {mission.referenceCredit}
                         </span>
                       </div>
-                    )}
+                    ) : null}
 
                     <div className="space-y-1.5 text-xs">
                       <div className="text-[10px] text-[var(--muted)] uppercase">Landed Astronauts:</div>

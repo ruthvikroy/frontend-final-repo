@@ -16,9 +16,20 @@ export default defineConfig(() => {
         '@': path.resolve(import.meta.dirname, '.'),
       },
     },
+    optimizeDeps: {
+      entries: ['src/main.jsx'],
+    },
     server: {
+      port: 3000,
+      host: '0.0.0.0',
+      allowedHosts: true as const,
       hmr: process.env.DISABLE_HMR !== 'true',
-      watch: process.env.DISABLE_HMR === 'true' ? null : {},
+      watch:
+        process.env.DISABLE_HMR === 'true'
+          ? null
+          : {
+              ignored: ['**/public/**', '**/.aistudio/**', '**/.playwright-cli/**', '**/*.zip'],
+            },
     },
   };
 });

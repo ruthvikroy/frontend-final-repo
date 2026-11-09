@@ -22,6 +22,7 @@ import { NatGeoFooter } from './components/natgeo/NatGeoFooter.jsx';
 import { ArticleReaderModal } from './components/natgeo/ArticleReaderModal.jsx';
 import { VideoModal } from './components/natgeo/VideoModal.jsx';
 import { GalleryModal } from './components/natgeo/GalleryModal.jsx';
+import { PlanetaryAnalogsPage } from './components/natgeo/PlanetaryAnalogsPage.jsx';
 
 function getInitialViewMode() {
   if (typeof window === 'undefined') return 'editorial';
@@ -31,6 +32,9 @@ function getInitialViewMode() {
   }
   if (params.get('view') === 'dashboard') {
     return 'dashboard';
+  }
+  if (params.get('view') === 'analogs' || window.location.hash === '#analogs') {
+    return 'analogs';
   }
   return 'editorial';
 }
@@ -162,24 +166,82 @@ export default function App() {
     }
   };
 
+  useEffect(() => {
+    const handleHashChange = () => {
+      if (window.location.hash === '#analogs') {
+        setViewMode('analogs');
+      } else if (
+        window.location.hash === '#hero' ||
+        window.location.hash === '' ||
+        window.location.hash === '#articles' ||
+        window.location.hash === '#scroll-lock-stage'
+      ) {
+        if (viewMode === 'analogs') {
+          setViewMode('editorial');
+        }
+      }
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, [viewMode]);
+
+  const handleNavigateAnalogs = useCallback(() => {
+    setViewMode('analogs');
+    window.location.hash = 'analogs';
+    playTelemetryBlip();
+  }, [playTelemetryBlip]);
+
+  const handleNavigateHome = useCallback(() => {
+    setViewMode('editorial');
+    window.location.hash = 'hero';
+    playTelemetryBlip();
+  }, [playTelemetryBlip]);
+
+  const [activeEditorialSection, setActiveEditorialSection] = useState('hero');
+
+  useEffect(() => {
+    if (viewMode !== 'editorial') return;
+    const handleScroll = () => {
+      const narrativeEl = document.getElementById('scroll-lock-stage');
+      const articlesEl = document.getElementById('articles');
+      const scrollPos = window.scrollY + 240;
+
+      if (articlesEl && scrollPos >= articlesEl.offsetTop) {
+        setActiveEditorialSection('articles');
+      } else if (narrativeEl && scrollPos >= narrativeEl.offsetTop) {
+        setActiveEditorialSection('narrative');
+      } else {
+        setActiveEditorialSection('hero');
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [viewMode]);
+
+  if (viewMode === 'analogs') {
+    return (
+      <PlanetaryAnalogsPage
+        onReturnHome={handleNavigateHome}
+        onLaunchSimulation={handleLaunchFullSimulation}
+      />
+    );
+  }
+
   if (viewMode === 'editorial') {
     return (
       <div className="min-h-screen w-full bg-[#050505] text-[#F1F1F1] selection:bg-[#F5D000] selection:text-black">
         <NatGeoHeader
           onLaunchSimulation={handleLaunchFullSimulation}
-          onLaunchDashboard={() => {
-            setViewMode('dashboard');
-            playTelemetryBlip();
-          }}
+          onNavigateAnalogs={handleNavigateAnalogs}
+          onNavigateHome={handleNavigateHome}
+          activeSection={activeEditorialSection}
         />
 
         <main>
           <EditorialHero
             onLaunchSimulation={handleLaunchFullSimulation}
-            onLaunchDashboard={() => {
-              setViewMode('dashboard');
-              playTelemetryBlip();
-            }}
+            onNavigateAnalogs={handleNavigateAnalogs}
           />
 
           <ScrollLockTextSection />

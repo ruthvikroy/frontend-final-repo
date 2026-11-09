@@ -4,7 +4,7 @@ OS support: -REPLACE WITH YOUR OS SUPPORT-
 Description: Scroll-locked kinetic text animation section featuring peer-reviewed terrestrial analog and planetary science narratives from Analog Atlas
 */
 import React, { useRef, useState, useEffect } from 'react';
-import { Compass, Sparkles, Orbit, Layers, ArrowDown } from 'lucide-react';
+import { Compass, Sparkles, Orbit, Layers, ArrowDown, ChevronRight, ChevronsDown } from 'lucide-react';
 
 const TEXT_STAGES = [
   {
@@ -33,7 +33,7 @@ const TEXT_STAGES = [
   },
   {
     step: '03',
-    tag: '03 / APOLLO ARCHIVES & REAL-TIME TELEMETRY',
+    tag: '03 / APOLLO ARCHIVES & PLANETARY OBSERVATIONS',
     heading: 'Grounded in Apollo ALSEP Archives & High-Fidelity Planetary Orbits.',
     highlight: 'Apollo ALSEP Archives & High-Fidelity',
     deck: 'Synthesizing real coordinates from 6 Apollo landing sites, Lunar Reconnaissance Orbiter laser altimetry, and Mars MOLA surface topographies into a unified celestial navigation engine.',
@@ -75,13 +75,48 @@ export function ScrollLockTextSection() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const jumpToStage = (stageIdx) => {
+    if (!containerRef.current) return;
+    const containerTop = containerRef.current.getBoundingClientRect().top + window.scrollY;
+    const containerHeight = containerRef.current.offsetHeight - window.innerHeight;
+    if (containerHeight <= 0) return;
+
+    // stage 0 -> 0.12, stage 1 -> 0.48, stage 2 -> 0.82
+    const targetProgress = stageIdx === 0 ? 0.12 : stageIdx === 1 ? 0.48 : 0.82;
+    window.scrollTo({
+      top: containerTop + containerHeight * targetProgress,
+      behavior: 'smooth',
+    });
+  };
+
+  const advanceNarrative = () => {
+    if (activeStage < TEXT_STAGES.length - 1) {
+      jumpToStage(activeStage + 1);
+    } else {
+      skipNarrative();
+    }
+  };
+
+  const skipNarrative = () => {
+    const articlesEl = document.getElementById('articles');
+    if (articlesEl) {
+      articlesEl.scrollIntoView({ behavior: 'smooth' });
+    } else if (containerRef.current) {
+      const containerTop = containerRef.current.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({
+        top: containerTop + containerRef.current.offsetHeight,
+        behavior: 'smooth',
+      });
+    }
+  };
+
   const current = TEXT_STAGES[activeStage];
 
   return (
     <section
       ref={containerRef}
       id="scroll-lock-stage"
-      aria-label="Interactive Kinetic Telemetry Text Stage"
+      aria-label="Interactive Kinetic Text Stage"
       className="relative w-full h-[260vh] bg-[#030407] border-b border-white/10 select-none"
     >
       {/* Sticky Viewport Container - Locks the text on screen while scrolling */}
@@ -90,26 +125,29 @@ export function ScrollLockTextSection() {
         {/* Ambient Cosmic Radial Glow */}
         <div className="absolute inset-0 bg-radial from-[#F5D000]/5 via-transparent to-transparent pointer-events-none" />
 
-        {/* Top Telemetry Header for Scroll Lock Stage */}
+        {/* Top Header for Scroll Lock Stage */}
         <div className="relative z-10 max-w-[1720px] w-full mx-auto flex items-center justify-between border-b border-white/10 pb-4">
           <div className="flex items-center gap-3">
             <span className="w-2 h-2 rounded-full bg-[#F5D000] animate-ping" />
             <span className="text-[10px] font-mono-code uppercase tracking-[0.25em] text-[#F5D000] font-bold">
-              SCROLL LOCK NARRATIVE // TELEMETRY INSIGHTS
+              SCROLL LOCK NARRATIVE // PLANETARY INSIGHTS
             </span>
           </div>
 
           <div className="flex items-center gap-3 text-[10px] font-mono-code text-[#888888]">
             <span className="hidden sm:inline">CYCLE STAGE</span>
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-1.5 pointer-events-auto">
               {TEXT_STAGES.map((s, idx) => (
-                <div
+                <button
                   key={s.step}
-                  className={`w-6 h-1.5 transition-all duration-300 ${
+                  onClick={() => jumpToStage(idx)}
+                  className={`w-7 h-2 transition-all duration-300 cursor-pointer ${
                     activeStage === idx
                       ? 'bg-[#F5D000] shadow-[0_0_8px_rgba(245,208,0,0.6)]'
-                      : 'bg-white/10'
+                      : 'bg-white/20 hover:bg-white/40'
                   }`}
+                  title={`Jump to Stage 0${idx + 1}`}
+                  aria-label={`Jump to Stage 0${idx + 1}`}
                 />
               ))}
             </div>
@@ -157,11 +195,11 @@ export function ScrollLockTextSection() {
           </div>
         </div>
 
-        {/* Bottom Progress Bar & Instruction Indicator */}
-        <div className="relative z-10 max-w-[1720px] w-full mx-auto flex items-center justify-between border-t border-white/10 pt-4 text-[10px] font-mono-code text-[#888888]">
+        {/* Bottom Progress Bar & Skip/Advance Interactive Controls */}
+        <div className="relative z-10 max-w-[1720px] w-full mx-auto flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-4 text-[10px] font-mono-code text-[#888888]">
           <div className="flex items-center gap-2">
             <span className="text-[#F5D000]">LOCK PROGRESS:</span>
-            <div className="w-32 sm:w-48 h-1.5 bg-white/10 rounded-full overflow-hidden">
+            <div className="w-28 sm:w-48 h-1.5 bg-white/10 rounded-full overflow-hidden">
               <div
                 className="h-full bg-[#F5D000] transition-all duration-150"
                 style={{ width: `${Math.round(progress * 100)}%` }}
@@ -172,9 +210,28 @@ export function ScrollLockTextSection() {
             </span>
           </div>
 
-          <div className="flex items-center gap-2 text-[#888888]">
-            <span className="hidden sm:inline">SCROLL TO ADVANCE NARRATIVE</span>
-            <ArrowDown size={12} className="animate-bounce text-[#F5D000]" />
+          <div className="flex items-center gap-2.5 pointer-events-auto">
+            <button
+              onClick={skipNarrative}
+              className="px-3 py-1.5 border border-white/20 bg-black/70 hover:bg-white/10 hover:border-white/40 text-[#888888] hover:text-[#F1F1F1] transition-all duration-200 text-[10px] font-mono-code font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer"
+              title="Skip all narrative stages and proceed directly to curated dispatches"
+            >
+              <span>SKIP ALL</span>
+              <ChevronsDown size={12} className="text-current" />
+            </button>
+
+            <button
+              onClick={advanceNarrative}
+              className="px-3.5 py-1.5 border border-[#F5D000] bg-[#F5D000] hover:bg-black text-black hover:text-[#F5D000] transition-all duration-200 text-[10px] font-mono-code font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer shadow-[0_0_12px_rgba(245,208,0,0.25)]"
+              title="Skip to next narrative stage or dispatches"
+            >
+              <span>
+                {activeStage < TEXT_STAGES.length - 1
+                  ? 'SKIP TO ADVANCE NARRATIVE'
+                  : 'ADVANCE TO DISPATCHES'}
+              </span>
+              <ChevronRight size={12} className="text-current" />
+            </button>
           </div>
         </div>
       </div>

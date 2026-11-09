@@ -7,6 +7,8 @@ import { Search, Globe, Menu, X, Maximize2 } from 'lucide-react';
 export function NatGeoHeader({
   onLaunchSimulation = () => {},
   onLaunchDashboard = () => {},
+  onNavigateAnalogs = () => {},
+  onNavigateHome = () => {},
   activeSection = 'hero',
 }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -14,16 +16,25 @@ export function NatGeoHeader({
   const [searchQuery, setSearchQuery] = useState('');
 
   const navLinks = [
-    { id: 'hero', label: 'EXPLORE', href: '#hero' },
-    { id: 'narrative', label: 'NARRATIVE', href: '#scroll-lock-stage' },
-    { id: 'articles', label: 'ANALOG DISPATCHES', href: '#articles' },
+    { id: 'hero', label: 'ORBITAL EXPLORE', href: '#hero', action: onNavigateHome },
+    { id: 'analogs', label: 'PLANETARY ANALOGS', href: '#analogs', action: onNavigateAnalogs },
+    { id: 'narrative', label: 'ADVANCE NARRATIVE', href: '#scroll-lock-stage', action: onNavigateHome },
+    { id: 'articles', label: 'ANALOG DISPATCHES', href: '#articles', action: onNavigateHome },
   ];
 
   return (
     <header className="sticky top-0 z-50 w-full bg-[#050505]/95 border-b border-white/10 select-none">
       <div className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
         <div className="flex items-center gap-4 sm:gap-6">
-          <a href="#hero" className="flex items-center gap-3 group">
+          <a
+            href="#hero"
+            onClick={(e) => {
+              if (onNavigateHome) {
+                onNavigateHome();
+              }
+            }}
+            className="flex items-center gap-3 group cursor-pointer"
+          >
             <img
               src="/assets/space-punks-logo.png"
               alt="Space Punks Logo"
@@ -48,32 +59,25 @@ export function NatGeoHeader({
           </div>
         </div>
 
-        <nav className="hidden lg:flex items-center gap-1">
+        <nav className="hidden lg:flex items-center gap-1.5 xl:gap-2">
           {navLinks.map((link) => (
             <a
               key={link.id}
               href={link.href}
-              className={`px-3.5 py-1.5 text-[11px] font-mono-code tracking-[0.16em] uppercase transition-all duration-200 border ${
+              onClick={(e) => {
+                if (link.action) {
+                  link.action();
+                }
+              }}
+              className={`px-3 xl:px-4 py-1.5 text-[10.5px] xl:text-[11px] font-mono-code tracking-[0.14em] xl:tracking-[0.16em] uppercase transition-all duration-200 border cursor-pointer whitespace-nowrap text-center flex items-center justify-center min-w-[136px] xl:min-w-[152px] ${
                 activeSection === link.id
-                  ? 'border-[#F5D000] text-[#F5D000] bg-[#F5D000]/5'
-                  : 'border-transparent text-[#888888] hover:text-[#F1F1F1] hover:border-white/10'
+                  ? 'border-[#F5D000] text-[#F5D000] bg-[#F5D000]/10 font-bold shadow-[0_0_12px_rgba(245,208,0,0.12)]'
+                  : 'border-white/5 text-[#888888] hover:text-[#F1F1F1] hover:border-white/20 hover:bg-white/[0.03]'
               }`}
             >
               {link.label}
             </a>
           ))}
-          <button
-            onClick={() => onLaunchSimulation('mars')}
-            className="px-3.5 py-1.5 text-[11px] font-mono-code tracking-[0.16em] uppercase transition-all duration-200 border border-transparent text-orange-400 hover:text-orange-200 hover:border-orange-500/30 cursor-pointer"
-          >
-            3D MARS
-          </button>
-          <button
-            onClick={onLaunchDashboard}
-            className="px-3.5 py-1.5 text-[11px] font-mono-code tracking-[0.16em] uppercase transition-all duration-200 border border-transparent text-[#888888] hover:text-[#F1F1F1] hover:border-white/10 cursor-pointer"
-          >
-            TELEMETRY MATRIX
-          </button>
         </nav>
 
         <div className="flex items-center gap-2 sm:gap-3">
@@ -131,14 +135,22 @@ export function NatGeoHeader({
       {mobileMenuOpen && (
         <div className="lg:hidden border-t border-white/10 bg-[#050505] px-6 py-6 flex flex-col gap-4">
           <div className="flex flex-col gap-2">
-            {navLinks.map((link) => (
+            {navLinks.map((link, idx) => (
               <a
                 key={link.id}
                 href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className="py-2.5 text-xs font-mono-code tracking-[0.2em] text-[#888888] hover:text-[#F5D000] border-b border-white/5 uppercase"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  if (link.action) link.action();
+                }}
+                className={`py-3 px-3 text-xs font-mono-code tracking-[0.16em] uppercase flex items-center justify-between border transition-colors ${
+                  activeSection === link.id
+                    ? 'border-[#F5D000] text-[#F5D000] bg-[#F5D000]/10 font-bold'
+                    : 'border-white/5 text-[#888888] hover:text-[#F5D000] hover:border-white/20'
+                }`}
               >
-                {link.label}
+                <span>{link.label}</span>
+                <span className="text-[10px] text-[#F5D000]/70 font-mono-code">0{idx + 1}</span>
               </a>
             ))}
           </div>

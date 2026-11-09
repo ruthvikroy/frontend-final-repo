@@ -2,12 +2,13 @@
 Description: Space Punks editorial hero with embedded 3D Earth & Moon scene and direct Full-Screen Simulation controls
 */
 import React from 'react';
-import { ArrowDown, Compass, Globe, Moon, Maximize2, Rocket } from 'lucide-react';
+import { ArrowDown, Globe, Moon, Maximize2, Rocket, Compass } from 'lucide-react';
 import { SpaceScene } from '../../simulation/SpaceScene.jsx';
 
 export function EditorialHero({
   onLaunchSimulation = () => {},
   onLaunchDashboard = () => {},
+  onNavigateAnalogs = () => {},
 }) {
   return (
     <section
@@ -107,11 +108,11 @@ export function EditorialHero({
             </button>
             <span className="text-white/20">/</span>
             <button
-              onClick={onLaunchDashboard}
-              className="text-[#888888] hover:text-[#F1F1F1] transition-colors flex items-center gap-2 cursor-pointer"
+              onClick={onNavigateAnalogs}
+              className="text-[#F1F1F1] hover:text-[#F5D000] transition-colors flex items-center gap-2 cursor-pointer font-bold"
             >
-              <Compass size={13} />
-              <span>04 • TELEMETRY MATRIX</span>
+              <Compass size={13} className="text-[#F5D000]" />
+              <span>04 • PLANETARY ANALOGS</span>
             </button>
           </div>
 

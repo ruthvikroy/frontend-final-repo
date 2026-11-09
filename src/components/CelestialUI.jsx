@@ -470,7 +470,7 @@ export function CelestialUI({
 
       {activeSite && (
         <aside
-          aria-label="Exploration Site Telemetry"
+          aria-label="Exploration Site Dossier"
           className="fixed top-36 right-4 sm:right-6 pointer-events-auto w-88 max-w-[calc(100vw-2rem)] rounded-lg border border-[var(--line)] bg-[#080d14]/95 shadow-2xl p-4 text-[var(--text)] z-40 transition-all flex flex-col gap-3 max-h-[72vh] overflow-y-auto"
         >
           <div className="flex items-start justify-between gap-2 border-b border-[var(--line)] pb-2">

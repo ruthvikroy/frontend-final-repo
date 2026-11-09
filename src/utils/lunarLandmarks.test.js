@@ -31,6 +31,9 @@ test('Apollo landing sites dataset integrity', async (t) => {
     assert.ok(apollo11.landedAstronauts.some((a) => a.includes('Armstrong')));
     assert.ok(apollo11.landedAstronauts.some((a) => a.includes('Aldrin')));
     assert.strictEqual(apollo11.date, 'July 20, 1969');
+    assert.strictEqual(apollo11.youtubeId, 'nOcDftgR5UQ');
+    assert.strictEqual(apollo11.videoStartTime, 14);
+    assert.ok(apollo11.videoUrl.includes('nOcDftgR5UQ'));
     assert.ok(Math.abs(apollo11.selenographic.latitudeDeg - 0.674) < 0.01);
     assert.ok(Math.abs(apollo11.selenographic.longitudeDeg - 23.473) < 0.01);
   });

@@ -256,30 +256,6 @@ export function ArticlesSection({ onLaunchSimulation = () => {} }) {
                 </span>
               </div>
 
-              <div className="border-b border-white/10 pb-4 flex flex-col gap-2.5">
-                <span className="text-[10px] font-mono-code uppercase tracking-[0.25em] text-[#888888] font-bold">
-                  FIELD TELEMETRY
-                </span>
-                <div className="grid grid-cols-2 gap-2 text-[10px] font-mono-code">
-                  <div className="p-2 border border-white/10 bg-[#0A0A0A]">
-                    <span className="text-[#888888] block">MOON DISTANCE</span>
-                    <span className="text-[#F1F1F1] font-bold">384,400 KM</span>
-                  </div>
-                  <div className="p-2 border border-white/10 bg-[#0A0A0A]">
-                    <span className="text-[#888888] block">MARS APHELION</span>
-                    <span className="text-[#F5D000] font-bold">1.666 AU</span>
-                  </div>
-                  <div className="p-2 border border-white/10 bg-[#0A0A0A]">
-                    <span className="text-[#888888] block">SOLAR WIND</span>
-                    <span className="text-[#F1F1F1] font-bold">412 KM/S</span>
-                  </div>
-                  <div className="p-2 border border-white/10 bg-[#0A0A0A]">
-                    <span className="text-[#888888] block">ISS ORBIT VEL</span>
-                    <span className="text-[#F1F1F1] font-bold">7.66 KM/S</span>
-                  </div>
-                </div>
-              </div>
-
               <div className="flex flex-col gap-2">
                 <span className="text-[10px] font-mono-code uppercase tracking-[0.25em] text-[#888888] font-bold">
                   ARCHIVAL INDICES

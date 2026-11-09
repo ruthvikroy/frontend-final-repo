@@ -123,11 +123,12 @@ export const EARTH_OBSERVATORIES = [
     coordinatesFormatted: '19.82° N, 155.47° W',
     researchTargets: 'Lunar Hydration & Martian Atmospheric Plumes',
     elevationKm: '+4.21 km Volcanic Summit',
-    referenceImage: '/assets/aistudio/home-mauna-kea_1x-1500x751_916f4a56.jpg',
-    image: '/assets/aistudio/home-mauna-kea_1x-1500x751_916f4a56.jpg',
+    referenceImage: '/assets/aistudio/images__4__8a6c99e4.jpeg',
+    image: '/assets/aistudio/images__4__8a6c99e4.jpeg',
     secondaryImage:
       '/assets/aistudio/Mauna-Kea-Observatory-Hawaii-Keck-telescope-Canada-France-Hawaii_0e5c1f84.webp',
     galleryImages: [
+      '/assets/aistudio/images__4__8a6c99e4.jpeg',
       '/assets/aistudio/home-mauna-kea_1x-1500x751_916f4a56.jpg',
       '/assets/aistudio/Mauna-Kea-Observatory-Hawaii-Keck-telescope-Canada-France-Hawaii_0e5c1f84.webp',
     ],
