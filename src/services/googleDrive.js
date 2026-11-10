@@ -6,6 +6,7 @@ import {
   onAuthStateChanged,
 } from 'firebase/auth';
 import firebaseConfig from '../../firebase-applet-config.json';
+import { setupAppCheck } from './appCheck.js';
 
 export const SCOPES = [
   'https://www.googleapis.com/auth/drive',
@@ -17,6 +18,7 @@ export const SCOPES = [
 ];
 
 const app = initializeApp(firebaseConfig);
+setupAppCheck(app, firebaseConfig.recaptchaSiteKey);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
