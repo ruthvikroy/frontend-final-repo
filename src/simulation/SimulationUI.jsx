@@ -9,7 +9,6 @@ import {
   Pause,
   RotateCcw,
   Maximize2,
-  Zap,
 } from 'lucide-react';
 import { useSimulationStore } from './simulationStore.js';
 
@@ -21,7 +20,6 @@ export function SimulationUI({ embedded = false, onLaunchFullSimulation }) {
   const showAtmosphere = useSimulationStore((state) => state.showAtmosphere);
   const simulationEpoch = useSimulationStore((state) => state.simulationEpoch);
   const activeHoverBody = useSimulationStore((state) => state.activeHoverBody);
-  const isWarping = useSimulationStore((state) => state.isWarping);
 
   const togglePlay = useSimulationStore((state) => state.togglePlay);
   const setOrbitalSpeed = useSimulationStore((state) => state.setOrbitalSpeed);
@@ -51,12 +49,6 @@ export function SimulationUI({ embedded = false, onLaunchFullSimulation }) {
             {activeHoverBody && (
               <span className="text-white bg-white/10 px-1.5 py-0.5 border border-white/20">
                 {activeHoverBody}
-              </span>
-            )}
-            {isWarping && (
-              <span className="text-black bg-[#F5D000] font-black px-1.5 py-0.5 tracking-wider flex items-center gap-1">
-                <Zap size={10} />
-                WARP BOOST ACTIVE
               </span>
             )}
           </div>
@@ -125,23 +117,7 @@ export function SimulationUI({ embedded = false, onLaunchFullSimulation }) {
           </div>
         </div>
 
-        <div className="hidden lg:flex items-center gap-3 px-3 py-1.5 bg-[#050505]/95 border border-white/10 text-[10px] text-[#888888]">
-          <span>
-            <kbd className="px-1 py-0.5 bg-white/10 text-white rounded">W</kbd>
-            <kbd className="px-1 py-0.5 bg-white/10 text-white rounded ml-0.5">A</kbd>
-            <kbd className="px-1 py-0.5 bg-white/10 text-white rounded ml-0.5">S</kbd>
-            <kbd className="px-1 py-0.5 bg-white/10 text-white rounded ml-0.5">D</kbd> THRUST
-          </span>
-          <span>
-            <kbd className="px-1 py-0.5 bg-[#F5D000]/20 text-[#F5D000] rounded">SHIFT</kbd> WARP
-          </span>
-          <span>
-            <kbd className="px-1 py-0.5 bg-white/10 text-white rounded">1..3</kbd> TARGETS
-          </span>
-          <span>
-            <kbd className="px-1 py-0.5 bg-white/10 text-white rounded">SPACE</kbd> PAUSE
-          </span>
-        </div>
+        <div className="flex-1 pointer-events-none" />
 
         <div className="flex items-center gap-1 bg-[#050505]/90 border border-white/10 p-1 text-[9.5px] sm:text-[10px]">
           <button

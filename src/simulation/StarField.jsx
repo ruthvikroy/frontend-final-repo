@@ -10,7 +10,6 @@ import { PerformanceManager } from './PerformanceManager.js';
 export function StarField() {
   const pointsRef = useRef(null);
   const quality = useSimulationStore((state) => state.quality);
-  const isWarping = useSimulationStore((state) => state.isWarping);
   const config = PerformanceManager.getConfig(quality);
 
   const [positions, colors, sizes] = useMemo(() => {
@@ -45,14 +44,7 @@ export function StarField() {
 
   useFrame((_, delta) => {
     if (!pointsRef.current) return;
-    const rotSpeed = isWarping ? 0.45 : 0.008;
-    pointsRef.current.rotation.y += rotSpeed * delta;
-    const targetScaleZ = isWarping ? 2.5 : 1.0;
-    pointsRef.current.scale.z = THREE.MathUtils.lerp(
-      pointsRef.current.scale.z,
-      targetScaleZ,
-      delta * (isWarping ? 5 : 3)
-    );
+    pointsRef.current.rotation.y += 0.008 * delta;
   });
 
   return (

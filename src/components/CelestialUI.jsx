@@ -67,10 +67,10 @@ export function CelestialUI({
   const [activeTab, setActiveTab] = useState('apollo');
 
   const NAV_ITEMS = [
-    { id: 'overview', label: 'System', keyHint: '1' },
-    { id: 'earth', label: 'Earth', keyHint: '2' },
-    { id: 'moon', label: 'Moon', keyHint: '3' },
-    { id: 'mars', label: 'Mars', keyHint: '4' },
+    { id: 'overview', label: 'System' },
+    { id: 'earth', label: 'Earth' },
+    { id: 'moon', label: 'Moon' },
+    { id: 'mars', label: 'Mars' },
     { id: 'orbit', label: 'Orbits' },
   ];
 
@@ -189,22 +189,11 @@ export function CelestialUI({
                       : 'text-[var(--muted)] hover:text-[var(--text)] border border-transparent'
                   }`}
                 >
-                  {item.keyHint && (
-                    <kbd className="px-1 py-0.2 bg-white/10 text-zinc-200 rounded text-[9px] font-mono">
-                      {item.keyHint}
-                    </kbd>
-                  )}
                   <span>{item.label}</span>
                 </button>
               );
             })}
           </nav>
-
-          {flightTelemetry?.isWarping && (
-            <span className="px-2.5 py-1.5 rounded bg-[#F5D000] text-black font-black uppercase tracking-wider text-[10px] flex items-center gap-1.5 animate-pulse">
-              WARP BOOST ACTIVE
-            </span>
-          )}
 
           <button
             onClick={() => {
@@ -1347,32 +1336,7 @@ export function CelestialUI({
           </aside>
         )}
 
-        <div className="hidden md:flex flex-1 justify-center pointer-events-none mb-2">
-          <div className="pointer-events-auto inline-flex flex-wrap items-center justify-center gap-3 px-3.5 py-1.5 rounded border border-[var(--line)] bg-[#0b101b]/95 text-[var(--muted)] uppercase text-[10px]">
-            <span className="flex items-center gap-1">
-              <kbd className="px-1.5 py-0.5 bg-white/10 text-white rounded font-bold">1</kbd>
-              <kbd className="px-1.5 py-0.5 bg-white/10 text-white rounded font-bold">2</kbd>
-              <kbd className="px-1.5 py-0.5 bg-white/10 text-white rounded font-bold">3</kbd>
-              <kbd className="px-1.5 py-0.5 bg-white/10 text-white rounded font-bold">4</kbd>
-              <span className="ml-1 text-zinc-200">SWITCH PLANETS</span>
-            </span>
-            <span className="text-zinc-600">•</span>
-            <span className="flex items-center gap-1">
-              <kbd
-                className={`px-1.5 py-0.5 rounded font-bold transition-colors ${
-                  flightTelemetry?.isWarping
-                    ? 'bg-[#F5D000] text-black'
-                    : 'bg-[#F5D000]/20 text-[#F5D000]'
-                }`}
-              >
-                SHIFT
-              </kbd>
-              <span className={flightTelemetry?.isWarping ? 'text-[#F5D000] font-bold' : 'text-zinc-200'}>
-                WARP
-              </span>
-            </span>
-          </div>
-        </div>
+        <div className="flex-1 pointer-events-none" />
 
         <div className="pointer-events-auto self-end sm:self-auto flex items-center gap-1.5 p-1.5 rounded border border-[var(--line)] bg-[#0b101b]/95">
           <button
