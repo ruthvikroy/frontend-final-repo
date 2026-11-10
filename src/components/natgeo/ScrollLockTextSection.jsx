@@ -120,28 +120,28 @@ export function ScrollLockTextSection() {
       className="relative w-full h-[260vh] bg-[#030407] border-b border-white/10 select-none"
     >
       {/* Sticky Viewport Container - Locks the text on screen while scrolling */}
-      <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-between px-4 sm:px-8 lg:px-16 py-8 sm:py-12 pointer-events-none">
+      <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-between px-4 sm:px-8 lg:px-16 py-5 sm:py-12 pointer-events-none">
         
         {/* Ambient Cosmic Radial Glow */}
         <div className="absolute inset-0 bg-radial from-[#F5D000]/5 via-transparent to-transparent pointer-events-none" />
 
         {/* Top Header for Scroll Lock Stage */}
-        <div className="relative z-10 max-w-[1720px] w-full mx-auto flex items-center justify-between border-b border-white/10 pb-4">
-          <div className="flex items-center gap-3">
-            <span className="w-2 h-2 rounded-full bg-[#F5D000] animate-ping" />
-            <span className="text-[10px] font-mono-code uppercase tracking-[0.25em] text-[#F5D000] font-bold">
-              SCROLL LOCK NARRATIVE // PLANETARY INSIGHTS
+        <div className="relative z-10 max-w-[1720px] w-full mx-auto flex items-center justify-between gap-2 border-b border-white/10 pb-3 sm:pb-4">
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+            <span className="w-2 h-2 rounded-full bg-[#F5D000] animate-ping shrink-0" />
+            <span className="text-[9.5px] sm:text-[10px] font-mono-code uppercase tracking-[0.14em] sm:tracking-[0.25em] text-[#F5D000] font-bold truncate">
+              SCROLL LOCK NARRATIVE <span className="hidden sm:inline">// PLANETARY INSIGHTS</span>
             </span>
           </div>
 
-          <div className="flex items-center gap-3 text-[10px] font-mono-code text-[#888888]">
+          <div className="flex items-center gap-2 sm:gap-3 text-[10px] font-mono-code text-[#888888] shrink-0">
             <span className="hidden sm:inline">CYCLE STAGE</span>
             <div className="flex items-center gap-1.5 pointer-events-auto">
               {TEXT_STAGES.map((s, idx) => (
                 <button
                   key={s.step}
                   onClick={() => jumpToStage(idx)}
-                  className={`w-7 h-2 transition-all duration-300 cursor-pointer ${
+                  className={`w-5 sm:w-7 h-2 transition-all duration-300 cursor-pointer ${
                     activeStage === idx
                       ? 'bg-[#F5D000] shadow-[0_0_8px_rgba(245,208,0,0.6)]'
                       : 'bg-white/20 hover:bg-white/40'
@@ -158,36 +158,36 @@ export function ScrollLockTextSection() {
         </div>
 
         {/* Central Kinetic Locked Text Content */}
-        <div className="relative z-10 max-w-5xl mx-auto w-full my-auto flex flex-col gap-6 sm:gap-8">
+        <div className="relative z-10 max-w-5xl mx-auto w-full my-auto flex flex-col gap-3.5 sm:gap-8">
           <div className="flex items-center gap-2">
-            <span className="text-[11px] font-mono-code uppercase tracking-[0.22em] text-[#F5D000] font-bold bg-[#F5D000]/10 px-2.5 py-1 border border-[#F5D000]/30">
+            <span className="text-[10px] sm:text-[11px] font-mono-code uppercase tracking-[0.14em] sm:tracking-[0.22em] text-[#F5D000] font-bold bg-[#F5D000]/10 px-2.5 py-1 border border-[#F5D000]/30 truncate">
               {current.tag}
             </span>
-            <span className="text-white/20 text-xs">•</span>
+            <span className="text-white/20 text-xs hidden sm:inline">•</span>
             <span className="text-[10px] font-mono-code uppercase text-[#888888] tracking-widest hidden sm:inline">
               NASA PDS // PEER-REVIEWED ARCHIVES
             </span>
           </div>
 
-          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black uppercase tracking-[-0.035em] text-[#F1F1F1] leading-[1.1] font-editorial transition-all duration-500">
+          <h2 className="text-2xl sm:text-5xl lg:text-6xl font-black uppercase tracking-[-0.035em] text-[#F1F1F1] leading-[1.15] sm:leading-[1.1] font-editorial transition-all duration-500">
             {current.heading}
           </h2>
 
-          <p className="text-sm sm:text-lg text-[#A0A0A0] leading-relaxed max-w-3xl font-editorial transition-all duration-500">
+          <p className="text-[13px] sm:text-lg text-[#B5B5B5] leading-[1.65] sm:leading-relaxed max-w-3xl font-editorial transition-all duration-500">
             {current.deck}
           </p>
 
           {/* Interactive Metric Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 pt-4 border-t border-white/10">
+          <div className="grid grid-cols-3 gap-2 sm:gap-4 pt-3 sm:pt-4 border-t border-white/10">
             {current.metrics.map((m, idx) => (
               <div
                 key={idx}
-                className="bg-[#080808]/80 backdrop-blur-md border border-white/10 p-3 sm:p-4 flex flex-col gap-1 transition-all duration-300"
+                className="bg-[#080808]/80 backdrop-blur-md border border-white/10 p-2.5 sm:p-4 flex flex-col gap-1 transition-all duration-300 min-w-0"
               >
-                <span className="text-[9px] font-mono-code uppercase tracking-widest text-[#888888]">
+                <span className="text-[8.5px] sm:text-[9px] font-mono-code uppercase tracking-wider sm:tracking-widest text-[#888888] truncate">
                   {m.label}
                 </span>
-                <span className="text-sm sm:text-base font-mono-code font-bold text-[#F5D000]">
+                <span className="text-[11px] sm:text-base font-mono-code font-bold text-[#F5D000] leading-tight break-words">
                   {m.value}
                 </span>
               </div>
@@ -196,24 +196,24 @@ export function ScrollLockTextSection() {
         </div>
 
         {/* Bottom Progress Bar & Skip/Advance Interactive Controls */}
-        <div className="relative z-10 max-w-[1720px] w-full mx-auto flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-4 text-[10px] font-mono-code text-[#888888]">
-          <div className="flex items-center gap-2">
-            <span className="text-[#F5D000]">LOCK PROGRESS:</span>
-            <div className="w-28 sm:w-48 h-1.5 bg-white/10 rounded-full overflow-hidden">
+        <div className="relative z-10 max-w-[1720px] w-full mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3 border-t border-white/10 pt-3 sm:pt-4 text-[10px] font-mono-code text-[#888888]">
+          <div className="flex items-center justify-between sm:justify-start gap-2">
+            <span className="text-[#F5D000] shrink-0">LOCK PROGRESS:</span>
+            <div className="flex-1 sm:flex-initial w-28 sm:w-48 h-1.5 bg-white/10 rounded-full overflow-hidden">
               <div
                 className="h-full bg-[#F5D000] transition-all duration-150"
                 style={{ width: `${Math.round(progress * 100)}%` }}
               />
             </div>
-            <span className="text-[#F1F1F1] font-bold">
+            <span className="text-[#F1F1F1] font-bold w-8 text-right">
               {Math.round(progress * 100)}%
             </span>
           </div>
 
-          <div className="flex items-center gap-2.5 pointer-events-auto">
+          <div className="flex items-center gap-2 pointer-events-auto w-full sm:w-auto">
             <button
               onClick={skipNarrative}
-              className="px-3 py-1.5 border border-white/20 bg-black/70 hover:bg-white/10 hover:border-white/40 text-[#888888] hover:text-[#F1F1F1] transition-all duration-200 text-[10px] font-mono-code font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer"
+              className="px-3 py-1.5 border border-white/20 bg-black/70 hover:bg-white/10 hover:border-white/40 text-[#888888] hover:text-[#F1F1F1] transition-all duration-200 text-[10px] font-mono-code font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 cursor-pointer shrink-0"
               title="Skip all narrative stages and proceed directly to curated dispatches"
             >
               <span>SKIP ALL</span>
@@ -222,15 +222,15 @@ export function ScrollLockTextSection() {
 
             <button
               onClick={advanceNarrative}
-              className="px-3.5 py-1.5 border border-[#F5D000] bg-[#F5D000] hover:bg-black text-black hover:text-[#F5D000] transition-all duration-200 text-[10px] font-mono-code font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer shadow-[0_0_12px_rgba(245,208,0,0.25)]"
+              className="flex-1 sm:flex-initial px-3.5 py-1.5 border border-[#F5D000] bg-[#F5D000] hover:bg-black text-black hover:text-[#F5D000] transition-all duration-200 text-[10px] font-mono-code font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 cursor-pointer shadow-[0_0_12px_rgba(245,208,0,0.25)]"
               title="Skip to next narrative stage or dispatches"
             >
-              <span>
+              <span className="truncate">
                 {activeStage < TEXT_STAGES.length - 1
                   ? 'SKIP TO ADVANCE NARRATIVE'
                   : 'ADVANCE TO DISPATCHES'}
               </span>
-              <ChevronRight size={12} className="text-current" />
+              <ChevronRight size={12} className="text-current shrink-0" />
             </button>
           </div>
         </div>

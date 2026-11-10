@@ -433,6 +433,8 @@ export function CelestialCanvas({
       }
     };
 
+    let isWarping = false;
+
     const handleKeyDown = (e) => {
       if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
 
@@ -444,12 +446,19 @@ export function CelestialCanvas({
         onSelectBodyRef.current('moon');
       } else if (e.code === 'Digit4') {
         onSelectBodyRef.current('mars');
-      } else if (e.code === 'Digit5') {
-        onSelectBodyRef.current('orbit');
+      } else if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
+        isWarping = true;
+      }
+    };
+
+    const handleKeyUp = (e) => {
+      if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
+        isWarping = false;
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
     window.addEventListener('pointerdown', handlePointerDown);
     window.addEventListener('pointermove', handlePointerMove);
     window.addEventListener('pointerup', handlePointerUp);
@@ -526,7 +535,7 @@ export function CelestialCanvas({
       const currentLandmark = landmarkIdRef.current;
 
       if (!isPausedRef.current && !currentLandmark) {
-        accumulatedTime += dt;
+        accumulatedTime += dt * (isWarping ? 4.5 : 1.0);
       }
 
       if (resetTriggerRef.current !== resetTrigger) {
@@ -675,7 +684,7 @@ export function CelestialCanvas({
           targetLookAt.copy(worldPos);
         }
       } else if (mode === 'overview') {
-        const radius = 21.2;
+        const radius = 21.2 * (isWarping ? 0.82 : 1.0);
         targetCamPos.set(
           Math.sin(orbitRotationY) * radius * 0.65 + parallaxX,
           10.6 + orbitRotationX * 2.5 + parallaxY,
@@ -683,7 +692,7 @@ export function CelestialCanvas({
         );
         targetLookAt.set(currentGaze.x * 0.5, currentGaze.y * 0.5, 0);
       } else if (mode === 'earth') {
-        const radius = 2.15;
+        const radius = 2.15 * (isWarping ? 0.82 : 1.0);
         targetCamPos.set(
           earthPos.x + Math.sin(orbitRotationY) * radius + parallaxX * 0.3,
           earthPos.y + orbitRotationX * 0.8 + 0.18 + parallaxY * 0.3,
@@ -695,14 +704,16 @@ export function CelestialCanvas({
           earthPos.z
         );
       } else if (mode === 'moon') {
-        targetCamPos.copy(moonPos).add(_moonOffset);
+        targetCamPos
+          .copy(moonPos)
+          .addScaledVector(_moonOffset, isWarping ? 0.82 : 1.0);
         targetCamPos.x += parallaxX * 0.25;
         targetCamPos.y += parallaxY * 0.25;
         targetLookAt.copy(moonPos);
         targetLookAt.x += currentGaze.x * 0.2;
         targetLookAt.y += currentGaze.y * 0.2;
       } else if (mode === 'mars') {
-        const radius = 1.65;
+        const radius = 1.65 * (isWarping ? 0.82 : 1.0);
         targetCamPos.set(
           marsPos.x + Math.sin(orbitRotationY + 0.4) * radius + parallaxX * 0.28,
           marsPos.y + orbitRotationX * 0.6 + 0.22 + parallaxY * 0.28,
@@ -722,14 +733,14 @@ export function CelestialCanvas({
         targetLookAt.set(currentGaze.x * 0.4, currentGaze.y * 0.4, 0);
       }
 
-      const dampFactor = 1 - Math.exp(-4.2 * dt);
+      const dampFactor = 1 - Math.exp(-(isWarping ? 12.0 : 4.2) * dt);
       currentCamPos.lerp(targetCamPos, dampFactor);
       currentLookAt.lerp(targetLookAt, dampFactor);
 
       camera.position.copy(currentCamPos);
       camera.lookAt(currentLookAt);
 
-      const thrustMode = 'GRAVITY-SPEED BALANCE';
+      const thrustMode = isWarping ? 'WARP BOOST ACTIVE' : 'GRAVITY-SPEED BALANCE';
 
       const distEarth = camera.position.distanceTo(earthPos);
       const distMoon = camera.position.distanceTo(moonPos);
@@ -759,7 +770,9 @@ export function CelestialCanvas({
         lastTelemetryPush = now;
         lastThrustMode = thrustMode;
         lastTargetBody = targetBody;
-        const speedKms = orbitalVelocityKms;
+        const speedKms = isWarping
+          ? (parseFloat(orbitalVelocityKms) * 4.5).toFixed(2)
+          : orbitalVelocityKms;
         const marsSolTime = formatMarsSolTime(accumulatedTime, 140);
 
         onFlightTelemetryRef.current({
@@ -769,7 +782,7 @@ export function CelestialCanvas({
           targetBody,
           targetDistance,
           marsSolTime,
-          isWarping: false,
+          isWarping,
           isBraking: false,
           thrustActive: false,
           isPiloting: false,
@@ -792,6 +805,7 @@ export function CelestialCanvas({
       cancelAnimationFrame(frameId);
       clearTimeout(frameId);
       window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
       window.removeEventListener('pointerdown', handlePointerDown);
       window.removeEventListener('pointermove', handlePointerMove);
       window.removeEventListener('pointerup', handlePointerUp);

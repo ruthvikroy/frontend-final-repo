@@ -211,7 +211,7 @@ export function PlanetaryAnalogsPage({
           </div>
 
           {/* Tab Navigation Pill Bar */}
-          <div className="pt-4 border-t border-white/10 flex flex-wrap gap-2 overflow-x-auto pb-1">
+          <div className="pt-4 border-t border-white/10 flex flex-nowrap sm:flex-wrap gap-2 overflow-x-auto pb-2">
             {TABS.map((tab) => {
               const Icon = tab.icon;
               const isActive = activeTab === tab.id;
@@ -222,7 +222,7 @@ export function PlanetaryAnalogsPage({
                     setActiveTab(tab.id);
                     setSelectedCategory('all');
                   }}
-                  className={`px-3.5 py-2 text-[11px] font-mono-code tracking-[0.14em] uppercase transition-all duration-200 border flex items-center gap-2 cursor-pointer shrink-0 ${
+                  className={`px-3 sm:px-3.5 py-2 text-[10.5px] sm:text-[11px] font-mono-code tracking-[0.12em] sm:tracking-[0.14em] uppercase transition-all duration-200 border flex items-center gap-2 cursor-pointer shrink-0 ${
                     isActive
                       ? 'border-[#F5D000] bg-[#F5D000] text-black font-bold shadow-[0_0_12px_rgba(245,208,0,0.3)]'
                       : 'border-white/10 bg-[#0A0A0A] text-[#888888] hover:text-[#F1F1F1] hover:border-white/25'
@@ -289,14 +289,14 @@ export function PlanetaryAnalogsPage({
               {filteredEarthMoon.map((pair) => (
                 <div
                   key={pair.id}
-                  className="bg-[#080808] border border-white/10 p-5 sm:p-7 flex flex-col gap-6 hover:border-white/20 transition-all"
+                  className="bg-[#080808] border border-white/10 p-4 sm:p-7 flex flex-col gap-5 sm:gap-6 hover:border-white/20 transition-all"
                 >
-                  <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-4">
-                    <div className="flex items-center gap-3">
-                      <span className="px-2.5 py-1 text-[10px] font-mono-code uppercase tracking-widest text-[#F5D000] bg-[#F5D000]/10 border border-[#F5D000]/30 font-bold">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3 border-b border-white/10 pb-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
+                      <span className="w-fit px-2.5 py-1 text-[10px] font-mono-code uppercase tracking-widest text-[#F5D000] bg-[#F5D000]/10 border border-[#F5D000]/30 font-bold">
                         {pair.categoryLabel}
                       </span>
-                      <h3 className="text-lg sm:text-xl font-bold uppercase text-[#F1F1F1] font-editorial">
+                      <h3 className="text-lg sm:text-xl font-bold uppercase text-[#F1F1F1] font-editorial leading-snug">
                         {pair.title}
                       </h3>
                     </div>
@@ -305,12 +305,12 @@ export function PlanetaryAnalogsPage({
                     </span>
                   </div>
 
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-8">
                     {/* Earth Card */}
                     <div className="border border-white/10 bg-[#0A0A0A] p-4 sm:p-5 flex flex-col gap-4">
-                      <div className="flex items-center justify-between">
+                      <div className="flex flex-wrap items-center justify-between gap-1.5">
                         <div className="flex items-center gap-2">
-                          <Globe size={14} className="text-[#38bdf8]" />
+                          <Globe size={14} className="text-[#38bdf8] shrink-0" />
                           <span className="text-[11px] font-mono-code font-bold uppercase tracking-wider text-[#38bdf8]">
                             TERRESTRIAL ANALOG
                           </span>
@@ -335,34 +335,34 @@ export function PlanetaryAnalogsPage({
                       </div>
 
                       <div>
-                        <h4 className="text-base font-bold uppercase text-[#F1F1F1]">
+                        <h4 className="text-base font-bold uppercase text-[#F1F1F1] leading-snug">
                           {pair.earth.name}
                         </h4>
-                        <span className="text-xs text-[#888888] font-mono-code block mt-0.5">
+                        <span className="text-xs text-[#888888] font-mono-code block mt-1">
                           {pair.earth.region}
                         </span>
-                        <p className="text-xs text-[#AAAAAA] mt-2 leading-relaxed">
+                        <p className="text-[13px] sm:text-xs text-[#CCCCCC] mt-2.5 leading-[1.65] sm:leading-relaxed">
                           {pair.earth.summary}
                         </p>
                       </div>
 
                       {/* Earth Metrics Grid */}
-                      <div className="grid grid-cols-3 gap-2 pt-3 border-t border-white/10 text-[10px] font-mono-code">
-                        <div className="p-2 bg-[#050505] border border-white/5">
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-3 border-t border-white/10 text-[10.5px] sm:text-[10px] font-mono-code">
+                        <div className="p-2.5 sm:p-2 bg-[#050505] border border-white/5 flex sm:block items-center justify-between">
                           <span className="text-[#888888] block">ELEVATION</span>
                           <span className="text-[#F1F1F1] font-bold">{pair.earth.metrics.elevationMeters} M</span>
                         </div>
-                        <div className="p-2 bg-[#050505] border border-white/5">
+                        <div className="p-2.5 sm:p-2 bg-[#050505] border border-white/5 flex sm:block items-center justify-between">
                           <span className="text-[#888888] block">TEMP RANGE</span>
                           <span className="text-[#F1F1F1] font-bold">{pair.earth.metrics.tempMinCelsius}° to {pair.earth.metrics.tempMaxCelsius}°C</span>
                         </div>
-                        <div className="p-2 bg-[#050505] border border-white/5">
+                        <div className="p-2.5 sm:p-2 bg-[#050505] border border-white/5 flex sm:block items-center justify-between">
                           <span className="text-[#888888] block">GRAVITY</span>
                           <span className="text-[#38bdf8] font-bold">{pair.earth.metrics.gravityMps2} m/s²</span>
                         </div>
                       </div>
 
-                      <div className="text-[11px] text-[#A0A0A0] border-t border-white/5 pt-2">
+                      <div className="text-[12px] sm:text-[11px] text-[#B5B5B5] leading-[1.6] border-t border-white/5 pt-2.5">
                         <strong className="text-[#F1F1F1] uppercase font-mono-code block text-[10px] mb-1">
                           Scientific Significance:
                         </strong>
@@ -399,34 +399,34 @@ export function PlanetaryAnalogsPage({
                       </div>
 
                       <div>
-                        <h4 className="text-base font-bold uppercase text-[#F1F1F1]">
+                        <h4 className="text-base font-bold uppercase text-[#F1F1F1] leading-snug">
                           {pair.moon.name}
                         </h4>
-                        <span className="text-xs text-[#888888] font-mono-code block mt-0.5">
+                        <span className="text-xs text-[#888888] font-mono-code block mt-1">
                           {pair.moon.region}
                         </span>
-                        <p className="text-xs text-[#AAAAAA] mt-2 leading-relaxed">
+                        <p className="text-[13px] sm:text-xs text-[#CCCCCC] mt-2.5 leading-[1.65] sm:leading-relaxed">
                           {pair.moon.summary}
                         </p>
                       </div>
 
                       {/* Moon Metrics Grid */}
-                      <div className="grid grid-cols-3 gap-2 pt-3 border-t border-white/10 text-[10px] font-mono-code">
-                        <div className="p-2 bg-[#050505] border border-white/5">
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-3 border-t border-white/10 text-[10.5px] sm:text-[10px] font-mono-code">
+                        <div className="p-2.5 sm:p-2 bg-[#050505] border border-white/5 flex sm:block items-center justify-between">
                           <span className="text-[#888888] block">ELEVATION</span>
                           <span className="text-[#F5D000] font-bold">{pair.moon.metrics.elevationMeters} M</span>
                         </div>
-                        <div className="p-2 bg-[#050505] border border-white/5">
+                        <div className="p-2.5 sm:p-2 bg-[#050505] border border-white/5 flex sm:block items-center justify-between">
                           <span className="text-[#888888] block">TEMP SWING</span>
                           <span className="text-[#F1F1F1] font-bold">{pair.moon.metrics.tempMinCelsius}° to {pair.moon.metrics.tempMaxCelsius}°C</span>
                         </div>
-                        <div className="p-2 bg-[#050505] border border-white/5">
+                        <div className="p-2.5 sm:p-2 bg-[#050505] border border-white/5 flex sm:block items-center justify-between">
                           <span className="text-[#888888] block">GRAVITY</span>
                           <span className="text-[#F5D000] font-bold">{pair.moon.metrics.gravityMps2} m/s² (0.165g)</span>
                         </div>
                       </div>
 
-                      <div className="text-[11px] text-[#A0A0A0] border-t border-white/5 pt-2">
+                      <div className="text-[12px] sm:text-[11px] text-[#B5B5B5] leading-[1.6] border-t border-white/5 pt-2.5">
                         <strong className="text-[#F5D000] uppercase font-mono-code block text-[10px] mb-1">
                           Selenographic Significance:
                         </strong>

@@ -66,7 +66,7 @@ test('ALL_MOON_MISSIONS contains Apollo 11-17 and Artemis with complete metadata
   const apollo17 = ALL_MOON_MISSIONS.find((m) => m.mission === 'Apollo 17');
   assert.ok(apollo17);
   assert.ok(apollo17.astronauts.some((a) => a.includes('Cernan')));
-  assert.equal(apollo17.youtubeId, 'g5aPoRtF2vw');
+  assert.equal(apollo17.youtubeId, 'MvVxtFyTE0M');
 
   const artemis = ALL_MOON_MISSIONS.find((m) => m.id === 'artemis-program');
   assert.ok(artemis);

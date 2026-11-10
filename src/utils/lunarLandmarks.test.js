@@ -74,7 +74,9 @@ test('Apollo landing sites dataset integrity', async (t) => {
     assert.ok(roboticIds.includes('luna-2'));
     assert.ok(roboticIds.includes('luna-9'));
     assert.ok(roboticIds.includes('surveyor-3'));
-    assert.ok(roboticIds.includes('change-4'));
     assert.ok(roboticIds.includes('chandrayaan-3'));
+    assert.ok(!roboticIds.includes('change-4'));
+    const ch3 = ROBOTIC_LANDERS.find((r) => r.id === 'chandrayaan-3');
+    assert.equal(ch3.referenceImage, '/assets/aistudio/chandrayaan-3-lander-rover-isro-jpg_b8fb84f9.webp');
   });
 });

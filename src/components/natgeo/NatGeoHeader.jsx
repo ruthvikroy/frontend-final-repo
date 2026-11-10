@@ -24,8 +24,8 @@ export function NatGeoHeader({
 
   return (
     <header className="sticky top-0 z-50 w-full bg-[#050505]/95 border-b border-white/10 select-none">
-      <div className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
-        <div className="flex items-center gap-4 sm:gap-6">
+      <div className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2 xl:gap-4">
+        <div className="flex items-center gap-3 xl:gap-4 min-w-0 shrink">
           <a
             href="#hero"
             onClick={(e) => {
@@ -33,24 +33,24 @@ export function NatGeoHeader({
                 onNavigateHome();
               }
             }}
-            className="flex items-center gap-3 group cursor-pointer"
+            className="flex items-center gap-2.5 sm:gap-3 group cursor-pointer min-w-0"
           >
             <img
               src="/assets/space-punks-logo.png"
               alt="Space Punks Logo"
               className="w-9 h-9 rounded-full object-cover shrink-0 border border-[#F5D000]/70 group-hover:scale-105 transition-transform"
             />
-            <div className="flex flex-col">
-              <span className="font-black tracking-[-0.04em] text-sm sm:text-base text-[#F1F1F1] leading-none uppercase font-editorial">
+            <div className="flex flex-col min-w-0">
+              <span className="font-black tracking-[-0.04em] text-sm sm:text-base text-[#F1F1F1] leading-none uppercase font-editorial truncate">
                 TEAM SPACE PUNKS
               </span>
-              <span className="text-[9px] tracking-[0.28em] text-[#888888] font-mono-code uppercase mt-1">
+              <span className="text-[8px] sm:text-[8.5px] xl:text-[9px] tracking-[0.08em] xl:tracking-[0.12em] text-[#888888] font-mono-code uppercase mt-1 leading-none truncate">
                 ASTRODASHBOARD // EARTH, MOON &amp; MARS
               </span>
             </div>
           </a>
 
-          <div className="hidden xl:flex items-center gap-2 pl-4 border-l border-white/10 text-[10px] font-mono-code text-[#888888]">
+          <div className="hidden 2xl:flex items-center gap-2 pl-4 border-l border-white/10 text-[10px] font-mono-code text-[#888888] shrink-0 whitespace-nowrap">
             <span className="text-[#F5D000] font-bold">VOL. 248</span>
             <span>•</span>
             <span>ISSUE 11.26</span>

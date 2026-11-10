@@ -67,10 +67,10 @@ export function CelestialUI({
   const [activeTab, setActiveTab] = useState('apollo');
 
   const NAV_ITEMS = [
-    { id: 'overview', label: 'System' },
-    { id: 'earth', label: 'Earth' },
-    { id: 'moon', label: 'Moon' },
-    { id: 'mars', label: 'Mars' },
+    { id: 'overview', label: 'System', keyHint: '1' },
+    { id: 'earth', label: 'Earth', keyHint: '2' },
+    { id: 'moon', label: 'Moon', keyHint: '3' },
+    { id: 'mars', label: 'Mars', keyHint: '4' },
     { id: 'orbit', label: 'Orbits' },
   ];
 
@@ -181,7 +181,7 @@ export function CelestialUI({
                     setViewMode(item.id);
                     onPlayClick();
                   }}
-                  className={`px-2.5 py-1.5 rounded uppercase transition-all duration-200 cursor-pointer text-[11px] ${
+                  className={`px-2.5 py-1.5 rounded uppercase transition-all duration-200 cursor-pointer text-[11px] flex items-center gap-1.5 ${
                     isActive
                       ? item.id === 'mars'
                         ? 'bg-red-950/90 text-orange-300 border border-orange-400 font-bold'
@@ -189,11 +189,22 @@ export function CelestialUI({
                       : 'text-[var(--muted)] hover:text-[var(--text)] border border-transparent'
                   }`}
                 >
-                  {item.label}
+                  {item.keyHint && (
+                    <kbd className="px-1 py-0.2 bg-white/10 text-zinc-200 rounded text-[9px] font-mono">
+                      {item.keyHint}
+                    </kbd>
+                  )}
+                  <span>{item.label}</span>
                 </button>
               );
             })}
           </nav>
+
+          {flightTelemetry?.isWarping && (
+            <span className="px-2.5 py-1.5 rounded bg-[#F5D000] text-black font-black uppercase tracking-wider text-[10px] flex items-center gap-1.5 animate-pulse">
+              WARP BOOST ACTIVE
+            </span>
+          )}
 
           <button
             onClick={() => {
@@ -235,11 +246,11 @@ export function CelestialUI({
       </header>
 
       {(isEarthSelected || isMoonSelected || isMarsSelected) && (
-        <div className="pointer-events-auto mt-2 flex flex-col items-center justify-center gap-1.5 z-20">
-          <div className="flex flex-wrap items-center justify-center gap-1.5 max-w-full">
+        <div className="pointer-events-auto mt-1.5 sm:mt-2 flex flex-col items-center justify-center gap-1 sm:gap-1.5 z-20 max-w-full">
+          <div className="flex flex-wrap items-center justify-center gap-1 sm:gap-1.5 max-w-full">
             {isMarsSelected && (
-              <div className="px-3 py-1 rounded-full border border-orange-500/30 bg-[#070a12]/95 flex items-center gap-2 overflow-x-auto max-w-full">
-                <span className="text-[10px] text-orange-400 font-semibold uppercase flex items-center gap-1 shrink-0">
+              <div className="px-2.5 sm:px-3 py-1 rounded-full border border-orange-500/30 bg-[#070a12]/95 flex items-center gap-1.5 sm:gap-2 overflow-x-auto max-w-full">
+                <span className="text-[9.5px] sm:text-[10px] text-orange-400 font-semibold uppercase flex items-center gap-1 shrink-0">
                   <Radio size={11} />
                   <span>Mars Recon Sites:</span>
                 </span>
@@ -318,8 +329,8 @@ export function CelestialUI({
                   })}
                 </div>
 
-                <div className="flex flex-wrap items-center justify-center gap-1.5 max-w-full">
-                  <div className="px-2.5 py-0.5 rounded-full border border-emerald-500/30 bg-[#070a12]/95 flex items-center gap-1.5 overflow-x-auto max-w-full">
+                <div className="flex flex-nowrap sm:flex-wrap items-center justify-start sm:justify-center gap-1 sm:gap-1.5 max-w-full overflow-x-auto pb-0.5">
+                  <div className="px-2.5 py-0.5 rounded-full border border-emerald-500/30 bg-[#070a12]/95 flex items-center gap-1.5 shrink-0">
                     <span className="text-[9px] text-emerald-400 font-semibold uppercase shrink-0">
                       Rovers &amp; Landers:
                     </span>
@@ -471,7 +482,7 @@ export function CelestialUI({
       {activeSite && (
         <aside
           aria-label="Exploration Site Dossier"
-          className="fixed top-36 right-4 sm:right-6 pointer-events-auto w-88 max-w-[calc(100vw-2rem)] rounded-lg border border-[var(--line)] bg-[#080d14]/95 shadow-2xl p-4 text-[var(--text)] z-40 transition-all flex flex-col gap-3 max-h-[72vh] overflow-y-auto"
+          className="fixed inset-x-3 bottom-16 sm:inset-x-auto sm:bottom-auto sm:top-36 sm:right-6 pointer-events-auto sm:w-88 max-w-[calc(100vw-1.5rem)] rounded-lg border border-[var(--line)] bg-[#080d14]/95 shadow-2xl p-3.5 sm:p-4 text-[var(--text)] z-40 transition-all flex flex-col gap-2.5 sm:gap-3 max-h-[56vh] sm:max-h-[72vh] overflow-y-auto"
         >
           <div className="flex items-start justify-between gap-2 border-b border-[var(--line)] pb-2">
             <div>
@@ -993,9 +1004,9 @@ export function CelestialUI({
         </aside>
       )}
 
-      <div className="flex-1 flex items-end justify-between gap-6 pointer-events-none pb-2">
+      <div className="flex-1 flex flex-col sm:flex-row items-stretch sm:items-end justify-end sm:justify-between gap-2.5 sm:gap-6 pointer-events-none pb-1 sm:pb-2">
         {showInfo && !selectedLandmarkId && (
-          <aside className="pointer-events-auto max-w-[290px] sm:max-w-[310px] max-h-[42vh] overflow-y-auto p-2.5 sm:p-3 rounded-lg border border-[var(--line)] bg-[#070a12]/90 shadow-2xl transition-all duration-300 text-[10px]">
+          <aside className="pointer-events-auto w-full sm:max-w-[310px] max-h-[34vh] sm:max-h-[42vh] overflow-y-auto p-3 rounded-lg border border-[var(--line)] bg-[#070a12]/95 shadow-2xl transition-all duration-300 text-[10px]">
             <div className="flex items-center justify-between gap-2 mb-0.5">
               <span className="text-[var(--accent)] uppercase text-[9px] font-bold tracking-wider">
                 {currentDesc.tag}
@@ -1336,17 +1347,34 @@ export function CelestialUI({
           </aside>
         )}
 
-        <div
-          className={`flex-1 text-center transition-opacity duration-700 pointer-events-none mb-2 ${
-            hasInteracted ? 'opacity-0' : 'opacity-80'
-          }`}
-        >
-          <span className="inline-block px-3 py-1 rounded border border-[var(--line)] bg-[#0b101b]/95 text-[var(--muted)] uppercase text-[10px]">
-            Drag to rotate • Click planets or landmarks to inspect
-          </span>
+        <div className="hidden md:flex flex-1 justify-center pointer-events-none mb-2">
+          <div className="pointer-events-auto inline-flex flex-wrap items-center justify-center gap-3 px-3.5 py-1.5 rounded border border-[var(--line)] bg-[#0b101b]/95 text-[var(--muted)] uppercase text-[10px]">
+            <span className="flex items-center gap-1">
+              <kbd className="px-1.5 py-0.5 bg-white/10 text-white rounded font-bold">1</kbd>
+              <kbd className="px-1.5 py-0.5 bg-white/10 text-white rounded font-bold">2</kbd>
+              <kbd className="px-1.5 py-0.5 bg-white/10 text-white rounded font-bold">3</kbd>
+              <kbd className="px-1.5 py-0.5 bg-white/10 text-white rounded font-bold">4</kbd>
+              <span className="ml-1 text-zinc-200">SWITCH PLANETS</span>
+            </span>
+            <span className="text-zinc-600">•</span>
+            <span className="flex items-center gap-1">
+              <kbd
+                className={`px-1.5 py-0.5 rounded font-bold transition-colors ${
+                  flightTelemetry?.isWarping
+                    ? 'bg-[#F5D000] text-black'
+                    : 'bg-[#F5D000]/20 text-[#F5D000]'
+                }`}
+              >
+                SHIFT
+              </kbd>
+              <span className={flightTelemetry?.isWarping ? 'text-[#F5D000] font-bold' : 'text-zinc-200'}>
+                WARP
+              </span>
+            </span>
+          </div>
         </div>
 
-        <div className="pointer-events-auto flex items-center gap-1.5 p-1.5 rounded border border-[var(--line)] bg-[#0b101b]/95">
+        <div className="pointer-events-auto self-end sm:self-auto flex items-center gap-1.5 p-1.5 rounded border border-[var(--line)] bg-[#0b101b]/95">
           <button
             onClick={() => {
               setIsPaused(!isPaused);

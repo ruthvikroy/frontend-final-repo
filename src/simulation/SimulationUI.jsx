@@ -33,13 +33,13 @@ export function SimulationUI({ embedded = false, onLaunchFullSimulation }) {
   const daysElapsed = (simulationEpoch / 2.0).toFixed(1);
 
   return (
-    <div className="absolute inset-0 pointer-events-none z-20 flex flex-col justify-between p-3 sm:p-5 select-none font-mono-code text-[11px]">
-      <div className="flex flex-col gap-2 pointer-events-auto">
-        <div className="flex items-start justify-between gap-3">
-          <div className="flex flex-wrap items-center gap-2 px-3 py-1.5 bg-[#050505]/95 border border-white/10 shadow-lg">
-            <div className="w-2 h-2 rounded-full bg-[#F5D000]" />
-            <span className="text-[#F1F1F1] font-bold tracking-wider uppercase">
-              NESTED ORBITAL ENGINE // SUN • EARTH • MOON • MARS
+    <div className="absolute inset-0 pointer-events-none z-20 flex flex-col justify-between p-2.5 sm:p-5 select-none font-mono-code text-[10px] sm:text-[11px]">
+      <div className="flex flex-col gap-1.5 sm:gap-2 pointer-events-auto">
+        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-1.5 sm:gap-3">
+          <div className="flex flex-wrap items-center gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 bg-[#050505]/90 border border-white/10 shadow-lg w-fit max-w-full">
+            <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#F5D000] shrink-0" />
+            <span className="text-[#F1F1F1] font-bold tracking-wider uppercase truncate">
+              NESTED ORBITAL ENGINE <span className="hidden md:inline">// SUN • EARTH • MOON • MARS</span>
             </span>
             <span className="text-[#888888] hidden sm:inline">|</span>
             <span className="text-[#F5D000] hidden sm:inline tracking-widest">
@@ -61,12 +61,12 @@ export function SimulationUI({ embedded = false, onLaunchFullSimulation }) {
             )}
           </div>
 
-          <div className="flex flex-wrap items-center gap-1.5 bg-[#050505]/95 border border-white/10 p-1">
+          <div className="flex items-center gap-1 bg-[#050505]/90 border border-white/10 p-1 overflow-x-auto max-w-full w-fit">
             {['system', 'earth', 'moon', 'mars'].map((target) => (
               <button
                 key={target}
                 onClick={() => setFocusTarget(target)}
-                className={`px-2.5 py-1 uppercase tracking-wider transition-colors cursor-pointer text-[10px] ${
+                className={`px-2 sm:px-2.5 py-1 uppercase tracking-wider transition-colors cursor-pointer text-[9.5px] sm:text-[10px] shrink-0 ${
                   focusTarget === target
                     ? 'bg-[#F5D000] text-black font-bold'
                     : 'text-[#888888] hover:text-[#F1F1F1] hover:bg-white/5'
@@ -79,7 +79,7 @@ export function SimulationUI({ embedded = false, onLaunchFullSimulation }) {
             {embedded && onLaunchFullSimulation && (
               <button
                 onClick={() => onLaunchFullSimulation(focusTarget)}
-                className="px-2.5 py-1 bg-[#F5D000]/15 hover:bg-[#F5D000] text-[#F5D000] hover:text-black font-bold uppercase tracking-wider transition-colors border-l border-white/10 ml-1 flex items-center gap-1.5 cursor-pointer text-[10px]"
+                className="hidden sm:flex px-2.5 py-1 bg-[#F5D000]/15 hover:bg-[#F5D000] text-[#F5D000] hover:text-black font-bold uppercase tracking-wider transition-colors border-l border-white/10 ml-1 items-center gap-1.5 cursor-pointer text-[10px] shrink-0"
                 title="Open Full Screen 3D Simulation"
               >
                 <Maximize2 size={12} />
@@ -90,8 +90,8 @@ export function SimulationUI({ embedded = false, onLaunchFullSimulation }) {
         </div>
       </div>
 
-      <div className="flex flex-wrap items-end justify-between gap-3 pointer-events-auto">
-        <div className="flex items-center gap-1 bg-[#050505]/95 border border-white/10 p-1">
+      <div className="flex flex-wrap items-center justify-between gap-2 sm:gap-3 pointer-events-auto">
+        <div className="flex items-center gap-1 bg-[#050505]/90 border border-white/10 p-1">
           <button
             onClick={togglePlay}
             className="p-1.5 text-[#F1F1F1] hover:text-[#F5D000] transition-colors cursor-pointer"
@@ -108,8 +108,8 @@ export function SimulationUI({ embedded = false, onLaunchFullSimulation }) {
             <RotateCcw size={13} />
           </button>
 
-          <div className="flex items-center gap-2 px-2 border-l border-white/10 text-[10px]">
-            <span className="text-[#888888] uppercase">SPEED</span>
+          <div className="flex items-center gap-1.5 sm:gap-2 px-1.5 sm:px-2 border-l border-white/10 text-[9.5px] sm:text-[10px]">
+            <span className="text-[#888888] uppercase hidden xs:inline sm:inline">SPEED</span>
             <input
               type="range"
               min="0.2"
@@ -117,9 +117,9 @@ export function SimulationUI({ embedded = false, onLaunchFullSimulation }) {
               step="0.2"
               value={orbitalSpeed}
               onChange={(e) => setOrbitalSpeed(parseFloat(e.target.value))}
-              className="w-16 sm:w-20 accent-[#F5D000] cursor-pointer"
+              className="w-14 sm:w-20 accent-[#F5D000] cursor-pointer"
             />
-            <span className="text-[#F5D000] font-bold w-7 text-right">
+            <span className="text-[#F5D000] font-bold w-6 sm:w-7 text-right">
               {orbitalSpeed.toFixed(1)}x
             </span>
           </div>
@@ -143,7 +143,7 @@ export function SimulationUI({ embedded = false, onLaunchFullSimulation }) {
           </span>
         </div>
 
-        <div className="flex items-center gap-1.5 bg-[#050505]/95 border border-white/10 p-1 text-[10px]">
+        <div className="flex items-center gap-1 bg-[#050505]/90 border border-white/10 p-1 text-[9.5px] sm:text-[10px]">
           <button
             onClick={toggleOrbits}
             className={`px-2 py-1 uppercase tracking-wider transition-colors cursor-pointer ${
